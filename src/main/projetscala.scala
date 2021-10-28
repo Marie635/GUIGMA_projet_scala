@@ -8,31 +8,33 @@ class Tondeuse(var x:Int, var y:Int, var orientation:String){
 
 
 object Run extends App {
+  
   /* La Fonction programmme prend en arguments la tondeuse et les instructions,
   exécutent chaque instruction et retourne les nouvelles coordonnées et orientation de la tondeuse*/
 
   def programme(tondeuse: Tondeuse, instruction: List[String],pelouse:List[Int]): Unit = {
 
     for (lettre <- instruction) {
+      
+      if (lettre == "D") {
+        tondeuse.orientation match {
+          case "N" => tondeuse.orientation = "E"
+          case "E" => tondeuse.orientation = "S"
+          case "S" => tondeuse.orientation = "W"
+          case "W" => tondeuse.orientation = "N"
+        }
+      }
+      else if (lettre == "G") {
+        tondeuse.orientation match {
+          case "N" => tondeuse.orientation = "W"
+          case "E" => tondeuse.orientation = "N"
+          case "S" => tondeuse.orientation = "E"
+          case "W" => tondeuse.orientation = "S"
+        }
+      }
       //on verifie ici que les coordonnées de la tondeuse ne sont pas supérieures à celle de la pelouse
       if (tondeuse.x <= pelouse.head || tondeuse.y <= pelouse(1)) {
-        if (lettre == "D") {
-          tondeuse.orientation match {
-            case "N" => tondeuse.orientation = "E"
-            case "E" => tondeuse.orientation = "S"
-            case "S" => tondeuse.orientation = "W"
-            case "W" => tondeuse.orientation = "N"
-          }
-        }
-        else if (lettre == "G") {
-          tondeuse.orientation match {
-            case "N" => tondeuse.orientation = "W"
-            case "E" => tondeuse.orientation = "N"
-            case "S" => tondeuse.orientation = "E"
-            case "W" => tondeuse.orientation = "S"
-          }
-        }
-        else if (lettre == "A") {
+        if (lettre == "A") {
           tondeuse.orientation match {
             case "N" => tondeuse.y = tondeuse.y + 1
             case "E" => tondeuse.x = tondeuse.x + 1
@@ -44,7 +46,7 @@ object Run extends App {
     }
     println(tondeuse)
   }
-  //On cree une liste de liste nommée fichier qui prend les informations des tondeuses et de la pelouse
+  ////On récupere le fichier text contenant les informations de la tondeuse dans la partie ressource
 
   val fichier = fromResource("ScalaFile.txt").getLines.toList
 
